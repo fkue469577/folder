@@ -76,4 +76,30 @@ e475afc HEAD@{3}: commit: add distributed
 eaadf4e HEAD@{4}: commit (initial): wrote a readme file
 ```
 
-https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013745374151782eb658c5a5ca454eaa451661275886c6000
+8、把文件往git版本库里添加的时候， 是分两部执行：
+
+​	第一步是用git add吧文件添加进去，实际上就是把文件修改添加到暂存区。
+
+​	第二不是用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支。
+
+因为我们创建git版本库时，git自动为我们创建了唯一一个master分支，所以，现在，git commit就是往master分支上提交更改。
+
+![](0.jpeg)
+
+9、把readme.txt 文件在工作区的修改全部撤销：
+
+```
+$ git checkout --readme.txt
+```
+
+一种是readme.txt 自修改后还咩有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
+
+一种是readme.txt 已经添加到暂存区后，又做了修改，现在，撤销修改就回到添加到暂存区后的状态。
+
+10、删除文件
+
+```
+$ git rm test.txt
+```
+
+https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001374385852170d9c7adf13c30429b9660d0eb689dd43a000
