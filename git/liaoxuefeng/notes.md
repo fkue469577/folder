@@ -102,4 +102,25 @@ $ git checkout --readme.txt
 $ git rm test.txt
 ```
 
-https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001374385852170d9c7adf13c30429b9660d0eb689dd43a000
+11、创建 SSH Key
+
+```
+$ ssh-keygen -t rsa -c "youremail@example.com"
+```
+
+12、把一个已有的本地仓库与 github 关联
+
+```
+$ git remote add origin git@github.com:michaelliao/learngit.git
+//把本地库的内容推送到远程，用git push命令，实际上是把当前分支master推送到远程
+$ ssh-add ~/id_rsa
+$ git push -u origin master
+```
+
+13、从远程库克隆
+
+```
+$ git clone git@github.com:michaelliao/gitskills.git
+```
+
+https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013743862006503a1c5bf5a783434581661a3cc2084efa000
