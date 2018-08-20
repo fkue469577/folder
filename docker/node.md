@@ -67,7 +67,7 @@ docker rmi:
 说明：使用docker rmi 命令可以删除镜像，其中image可以为标签或ID
 ```
 
-6、创建进项
+6、创建镜像
 
 ```
 docker commit
@@ -97,5 +97,65 @@ docker load --input tar 或docker load < tar
 ```
 docker push <域名>//
 说明：可以使用docker push命令上传镜像到仓库，默认上传到dockerhub官方仓库
+```
+
+# 第四章 容器的基本操作
+
+1、创建容器
+
+```
+docker create 
+eq:docker create --name test_create -ti ubuntu
+```
+
+创建并启动容器
+
+```
+docker run
+	eq: docker run ubuntu /bin/echo “Hello World”
+ docker run -ti -d --name test_network ubuntu bash
+ docker exec -ti test_network bash
+ // 让docker容器运行在后台以守护态（daemonized）形式运行，可以通过添加-d参数来实现
+ docker run –d ubuntu /bin/sh -c "while true;do echo hello world;sleep 1;done”
+ //查看日志：docker logs
+ docker logs ed95736a20e9
+```
+
+2、终止容器
+
+```
+docker stop
+//查看终止的容器
+docker ps -a
+//查看运行的容器
+docker ps
+//重新启动容器
+docker start
+```
+
+3、进入容器
+
+```
+docker exec
+eq: docker exec -i -t 630c4d2291e3 bash
+```
+
+4、删除容器
+
+```
+docker rm <name>
+eq: docker ps -a 
+	docker rm test2
+	//如果正在运行该容器，则先删除
+	docker stop test2
+```
+
+5、导入和导出容器
+
+```
+docker export
+eq: docker export test_id > test.tar
+docker import
+eq: cat export.tar | docker import -liming/testingport:latest
 ```
 
