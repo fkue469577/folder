@@ -151,4 +151,56 @@ $ git branch -d <name>
 
 ​	5）、删除分支
 
-https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013758410364457b9e3d821f4244beb0fd69c61a185ae0000
+16、在分支1上面做了修改，但是当前需要完成另外一个任务。
+
+​	1）、把当前的工作现场“存储”起来：git stash
+
+​	2）、切换到主干道
+
+​	3）、创建另外一个分支： 分支2
+
+​	4）、在分支2上面做修改，
+
+​	5）、修改完成后切换到主干道，最后删除分支2
+
+```
+$ git checkout master
+Switched to branch 'master'
+Your branch is ahead of 'origin/master' by 6 commits.
+  (use "git push" to publish your local commits)
+
+$ git merge --no-ff -m "merged bug fix 101" issue-101
+Merge made by the 'recursive' strategy.
+ readme.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+```
+
+​	6）、切换到dev分支，恢复被stash存储的内容
+
+```
+一是用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除；
+另一种方式是用git stash pop，恢复的同时把stash内容也删了：
+$ git stash pop
+On branch dev
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+    new file:   hello.py
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+    modified:   readme.txt
+
+Dropped refs/stash@{0} (5d677e2ee266f39ea296182fb2354265b91b3b2a)
+```
+
+查看stash内容
+
+```
+$ git stash list
+$ git stash apply stash@{0}
+```
+
+https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137602359178794d966923e5c4134bc8bf98dfb03aea3000
