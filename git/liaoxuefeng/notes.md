@@ -123,4 +123,32 @@ $ git push -u origin master
 $ git clone git@github.com:michaelliao/gitskills.git
 ```
 
-https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013743862006503a1c5bf5a783434581661a3cc2084efa000
+14、分支控制
+
+```
+//切换 dev 分支（加上 -b 表示创建并切换）
+$ git checkout -b dev
+//相当于如下语句
+$ git branch dev
+$ git checkout dev
+//查看当前分值
+$ git branch
+// 在master主干上面，合并dev分支
+$ git merge <name>
+//删除分支
+$ git branch -d <name>
+```
+
+15、解决冲突
+
+​	1）、遇到冲突
+
+​	2）、查看当前分支
+
+​	3）、手动修改主干道被分支修改的内容，在主干道提交
+
+​	4）、在主干道合并分支
+
+​	5）、删除分支
+
+https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013758410364457b9e3d821f4244beb0fd69c61a185ae0000
