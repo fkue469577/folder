@@ -113,7 +113,6 @@ $ ssh-keygen -t rsa -c "youremail@example.com"
 ```
 $ git remote add origin git@github.com:michaelliao/learngit.git
 //把本地库的内容推送到远程，用git push命令，实际上是把当前分支master推送到远程
-$ ssh-add ~/id_rsa
 $ git push -u origin master
 ```
 
@@ -203,4 +202,21 @@ $ git stash list
 $ git stash apply stash@{0}
 ```
 
-https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137602359178794d966923e5c4134bc8bf98dfb03aea3000
+17、多人协作开发
+
+```
+//要在dev分支上开发，就必须创建远程origin的dev分支到本地
+$ git checkout -b dev origin/dev
+//指定本地dev分支与远程origin/dev分支的链接
+$ git branch --set-upstream-to=origin/dev dev
+```
+
+思路：
+
+```
+1、首先，可以试图用git push origin <branch-name>推送自己的修改；
+2、如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
+3、如果合并有冲突，则解决冲突，并在本地提交；
+4、没有冲突或者解决掉冲突后，再用git push origin <branch-name>推送就能成功！
+```
+
