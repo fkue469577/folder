@@ -341,9 +341,9 @@ To github.com:michaelliao/learngit.git
 
 删除远程标签，步骤：
 
-1、先删除本地标签
+1）、先删除本地标签
 
-2、从远程删除
+2）、从远程删除
 
 ```
 $ git tag -d v0.9
@@ -351,5 +351,14 @@ Deleted tag 'v0.9' (was f52c633)
 $ git push origin :refs/tags/v0.9
 To github.com:michaelliao/learngit.git
  - [deleted]         v0.9
+```
+
+22、使用GitHub
+
+```
+//查看远程库信息
+$ git remote -v
+//删除已有的GitHub远程库
+$ git remote rm origin
 ```
 
