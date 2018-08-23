@@ -320,3 +320,36 @@ diff --git a/readme.txt b/readme.txt
 ...
 ```
 
+21、操作标签
+
+```
+// 删除标签(创建的标签都只存储在本地，不会自动推送到远程)
+$ git tag -d v0.1
+Deleted tag 'v0.1' (was f15b0dd)
+
+// 推送某个标签到远程，使用命令 git push origin <tagname>
+$ git push origin v1.0
+Total 0 (delta 0), reused 0 (delta 0)
+To github.com:michaelliao/learngit.git
+ * [new tag]         v1.0 -> v1.0
+ //一次性推送全部尚未推送到远程的本地标签
+$ git push origin --tags
+Total 0 (delta 0), reused 0 (delta 0)
+To github.com:michaelliao/learngit.git
+ * [new tag]         v0.9 -> v0.9
+```
+
+删除远程标签，步骤：
+
+1、先删除本地标签
+
+2、从远程删除
+
+```
+$ git tag -d v0.9
+Deleted tag 'v0.9' (was f52c633)
+$ git push origin :refs/tags/v0.9
+To github.com:michaelliao/learngit.git
+ - [deleted]         v0.9
+```
+
