@@ -220,3 +220,44 @@ $ git branch --set-upstream-to=origin/dev dev
 4、没有冲突或者解决掉冲突后，再用git push origin <branch-name>推送就能成功！
 ```
 
+18、Rebase
+
+查看历史提交记录
+
+```
+$ git log --graph --pretty=oneline --abbrev-commit
+* 582d922 (HEAD -> master) add author
+* 8875536 add comment
+* d1be385 (origin/master) init hello
+*   e5e69f1 Merge branch 'dev'
+|\  
+| *   57c53ab (origin/dev, dev) fix env conflict
+| |\  
+| | * 7a5e5dd add env
+| * | 7bd91f1 add new env
+...
+```
+
+通过rebase 把分差的提交历史“整理”城一条直线
+
+```
+$ git rebase
+First, rewinding head to replay your work on top of it...
+Applying: add comment
+Using index info to reconstruct a base tree...
+M    hello.py
+Falling back to patching base and 3-way merge...
+Auto-merging hello.py
+Applying: add author
+Using index info to reconstruct a base tree...
+M    hello.py
+Falling back to patching base and 3-way merge...
+Auto-merging hello.py
+$ git log --graph --pretty=oneline --abbrev-commit
+* 7e61ed4 (HEAD -> master) add author
+* 3611cfe add comment
+* f005ed4 (origin/master) set exit=1
+* d1be385 init hello
+...
+```
+
