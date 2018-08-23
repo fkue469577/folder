@@ -261,3 +261,62 @@ $ git log --graph --pretty=oneline --abbrev-commit
 ...
 ```
 
+19、标签管理
+
+发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本去出来。所以，标签也是版本库的一个快照。
+
+20、打标签
+
+```
+//切换到要打标签的分支上
+$ git branch
+* dev
+  master
+$ git checkout master
+Switched to branch 'master'
+
+// 打标签
+$ git tag v1.0
+$ git tag
+v1.0
+
+//在历史提交的commit id 上面打标签
+$ git log --pretty=oneline --abbrev-commit
+12a631b (HEAD -> master, tag: v1.0, origin/master) merged bug fix 101
+4c805e2 fix bug 101
+e1e9c68 merge with no-ff
+f52c633 add merge
+cf810e4 conflict fixed
+5dc6824 & simple
+14096d0 AND simple
+b17d20e branch test
+d46f35e remove test.txt
+b84166e add test.txt
+519219b git tracks changes
+e43a48b understand how stage works
+1094adb append GPL
+e475afc add distributed
+eaadf4e wrote a readme file
+$ git tag v0.9 f52c633
+
+//带指定说明文字打标签
+$ git tag -a v0.1 -m "version 0.1 released" 1094adb
+
+//看到说明文字
+$ git show v0.1
+tag v0.1
+Tagger: Michael Liao <askxuefeng@gmail.com>
+Date:   Fri May 18 22:48:43 2018 +0800
+
+version 0.1 released
+
+commit 1094adb7b9b3807259d8cb349e7df1d4d6477073 (tag: v0.1)
+Author: Michael Liao <askxuefeng@gmail.com>
+Date:   Fri May 18 21:06:15 2018 +0800
+
+    append GPL
+
+diff --git a/readme.txt b/readme.txt
+...
+```
+
