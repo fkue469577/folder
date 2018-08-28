@@ -245,3 +245,513 @@ POI库具有一个名为 **XSLFHyperlink** 的类，您可以使用它在演示�
 | 3    | **void setAddress(XSLFSlide幻灯片)** <br /> 将地址设置为演示文稿幻灯片中显示的网址。 |
 
 # 五 Apache POI PPT - 演示
+
+一般来说，我们使用MS-PowerPoint来创建演示文稿。 现在让我们看看如何使用Java创建演示文稿。 完成本章后，您将能够创建新的MS-PowerPoint演示文稿，并使用您的Java程序打开现有的PPT。
+
+## 创建空的演示文稿
+
+要创建空的演示文稿，您必须实例化 **org.poi.xslf.usermodel 包的 XMLSlideShow 类:**
+
+```java
+XMLSlideShow ppt = new XMLSlideShow();
+```
+
+使用 **FileOutputStream** 类将更改保存到PPT文档: 
+
+```java
+File file=new File("C://POIPPT//Examples//example1.pptx");
+FileOutputStream out = new FileOutputStream(file);
+ppt.write(out);
+```
+
+以下是创建空白MS-PowerPoint演示文稿的完整程序。 
+
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
+
+public class CreatePresentation {
+   
+   public static void main(String args[]) throws IOException{
+   
+      //creating a new empty slide show
+      XMLSlideShow ppt = new XMLSlideShow();	     
+      
+      //creating an FileOutputStream object
+      File file =new File("example1.pptx");
+      FileOutputStream out = new FileOutputStream(file);
+      
+      //saving the changes to a file
+      ppt.write(out);
+      System.out.println("Presentation created successfully");
+      out.close()
+   }
+}
+```
+
+将上面的Java代码保存为 **CreatePresentation.java** ，然后从命令提示符处编译并执行它，如下所示: 
+
+```dockerfile
+$javac CreatePresentation.java
+$java CreatePresentation
+```
+
+如果您的系统环境配置有POI库，它将编译并执行，以在当前目录中生成名为 **example1.pptx** 的空白PPT文件，并在命令提示符下显示以下输出: 
+
+```dockerfile
+Presentation created successfully
+```
+
+空白PowerPoint文档显示如下: 
+
+![](1482809595463893.jpg)
+
+## 编辑现有演示文稿
+
+要打开现有的演示文稿，请实例化 **XMLSlideShow** 类，并将要编辑的文件的 **FileInputStream** 对象作为 **XMLSlideShow** 构造函数的参数传递 。
+
+```java
+File file=new File(“C://POIPPT//Examples//example1.pptx");
+FileInputstream inputstream =new FileInputStream(file);
+XMLSlideShow ppt = new XMLSlideShow(inputstream);
+```
+
+您可以使用 **org.poi.xslf.usermodel 包中的XMLSlideShow类的 createSlide()方法将幻灯片添加到演示文稿。** 
+
+```java
+XSLFSlide slide1= ppt.createSlide();
+```
+
+下面给出了打开和添加幻灯片到现有PPT的完整程序: 
+
+```java
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
+
+public class EditPresentation {
+
+   public static void main(String ar[]) throws IOException{
+	   
+      //opening an existing slide show
+      File file = new File("example1.pptx");
+      FileInputStream inputstream=new FileInputStream(file);
+      XMLSlideShow ppt = new XMLSlideShow(inputstream);
+      
+      //adding slides to the slodeshow
+      XSLFSlide slide1 = ppt.createSlide();
+      XSLFSlide slide2 = ppt.createSlide();
+      
+      //saving the changes 
+      FileOutputStream out = new FileOutputStream(file);
+      ppt.write(out);
+      
+      System.out.println("Presentation edited successfully");
+      out.close();	
+   }
+} 
+```
+
+将上述Java代码另存为 **EditPresentation.java** ，然后从命令提示符处编译并执行，如下所示: 
+
+```dockerfile
+$javac EditPresentation.java
+$java EditPresentation
+```
+
+它将编译并执行以生成以下输出: 
+
+```dockerfile
+slides successfully added
+```
+
+带有新添加的幻灯片的输出PPT文档如下所示: 
+
+![](1482809608439971.jpg)
+
+将幻灯片添加到PPT后，您可以在幻灯片上添加，执行，读取和写入操作。 
+
+# 六 Apache POI PPT - 幻灯片布局
+
+在上一章中，您已经了解了如何创建空白幻灯片以及如何向其添加幻灯片。 在本章中，您将学习如何获取可用幻灯片的列表，以及如何创建具有不同布局的幻灯片。
+
+## 可用的幻灯片布局
+
+PowerPoint演示文稿具有幻灯片布局，您可以选择所需的布局来编辑幻灯片。 首先，让我们找出所有可用的幻灯片布局的列表。
+
+- 有不同的幻灯片母版，在每个幻灯片母版中，有几个幻灯片布局。
+- 您可以使用 **XMLSlideShow** 类的 **getSlideMasters()**方法获取幻灯片主题列表。
+- 您可以使用 **XSLFSlideMaster** 类的 **getSlideLayouts()**方法从每个幻灯片母带获取幻灯片布局的列表。
+- 您可以使用 **XSLFSlideLayout** 类的 **getType()**方法从布局对象获取幻灯片布局的名称。
+
+**注意**:所有这些类都属于 *org.poi.xslf.usermodel* 包。
+
+下面给出的是获取PPT中可用幻灯片布局列表的完整程序:
+
+```java
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFSlideLayout;
+import org.apache.poi.xslf.usermodel.XSLFSlideMaster;
+
+public class SlideLayouts {
+
+   public static void main(String args[]) throws IOException{
+   
+      //create an empty presentation
+      XMLSlideShow ppt = new XMLSlideShow();
+      System.out.println("Available slide layouts:")
+   
+      //getting the list of all slide masters
+      for(XSLFSlideMaster master : ppt.getSlideMasters()){
+   
+         //getting the list of the layouts in each slide master
+         for(XSLFSlideLayout layout : master.getSlideLayouts()){
+   
+            //getting the list of available slides
+            System.out.println(layout.getType());
+         } 
+      }
+   }
+}
+```
+
+将上述Java代码保存为 **SlideLayouts.java** ，然后从命令提示符处编译并执行，如下所示: 
+
+```dockerfile
+$javac SlideLayouts.java
+$java SlideLayouts
+```
+
+它将编译并执行以生成以下输出: 
+
+```dockerfile
+Available slide layouts:
+TITLE
+PIC_TX
+VERT_TX
+TWO_TX_TWO_OBJ
+BLANK
+VERT_TITLE_AND_TX
+TITLE_AND_CONTENT
+TITLE_ONLY
+SECTION_HEADER
+TWO_OBJ
+OBJ_TX
+```
+
+下面显示的是MS-Office 360，2013版本提供的一些示例幻灯片布局。 
+
+![](1482819512194362.jpg)
+
+## 标题布局
+
+让我们使用标题布局在PPT中创建幻灯片。 请按照以下步骤操作:
+
+**步骤1** :通过实例化 **XMLSlideShow** 类创建一个空的演示文稿，如下所示:
+
+```java
+XMLSlideShow ppt = new XMLSlideShow();
+```
+
+**步骤2** :使用 **getSlideMasters()**方法获取幻灯片主题列表。 此后，使用索引选择所需的幻灯片母带，如下所示: 
+
+```java
+XSLFSlideMaster slideMaster = ppt.getSlideMasters()[0];
+```
+
+这里我们得到的默认幻灯片母版是在幻灯片主数据的第0位置。
+
+**步骤3** :使用 **XSLFSlideMaster** 类的 **getLayout()**方法获取所需的布局。 此方法接受一个参数，您必须传递 **SlideLayoutclass** 的静态变量之一，代表我们所需的布局。 这个类中有几个变量，每个变量代表一个幻灯片布局。
+
+下面的代码片段显示了如何创建标题布局:
+
+```java
+XSLFSlideLayout titleLayout = slideMaster.getLayout(SlideLayout.TITLE);
+```
+
+**步骤4** :通过将幻灯片布局对象作为参数传递来创建新幻灯片。 
+
+```java
+XSLFSlide slide = ppt.createSlide(titleLayout);
+```
+
+**第5步**:使用 **XSLFSlide** 类的 **getPlaceholder()**方法选择占位符。 此方法接受整数参数。 通过传递0到它，你会得到 **XSLFTextShape** 对象，使用它可以访问幻灯片的标题文本区域。 使用setText()方法设置标题，如下所示: 
+
+```java
+XSLFTextShape title1 = slide.getPlaceholder(0);
+//setting the title init
+title1.setText("Tutorials point");
+```
+
+下面给出的是在演示文稿中创建带有标题布局的幻灯片的完整程序: 
+
+```java
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.xslf.usermodel.SlideLayout;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.apache.poi.xslf.usermodel.XSLFSlideLayout;
+import org.apache.poi.xslf.usermodel.XSLFSlideMaster;
+import org.apache.poi.xslf.usermodel.XSLFTextShape;
+
+public class TitleLayout {
+
+   public static void main(String args[]) throws IOException{
+   
+      //creating presentation
+      XMLSlideShow ppt = new XMLSlideShow();	    	
+      
+      //getting the slide master object
+      XSLFSlideMaster slideMaster = ppt.getSlideMasters()[0];
+      
+      //get the desired slide layout 
+      XSLFSlideLayout titleLayout = slideMaster.getLayout(SlideLayout.TITLE);
+                                                     
+      //creating a slide with title layout
+      XSLFSlide slide1 = ppt.createSlide(titleLayout);
+      
+      //selecting the place holder in it 
+      XSLFTextShape title1 = slide1.getPlaceholder(0); 
+      
+      //setting the title init 
+      title1.setText("Tutorials point");
+      
+      //create a file object
+      File file=new File("C://POIPPT//Examples//Titlelayout.pptx");
+      FileOutputStream out = new FileOutputStream(file);
+      
+      //save the changes in a PPt document
+      ppt.write(out);
+      System.out.println("slide cretated successfully");
+      out.close();  
+   }
+}
+```
+
+带有新添加的标题布局幻灯片的PPT文档如下所示: 
+
+![](1482819541953509.jpg)
+
+## 标题和内容布局
+
+让我们使用标题和内容布局在PPT中创建幻灯片。 按照下面给出的步骤。
+
+**步骤1** :通过实例化 **XMLSlideShow** 类创建一个空的演示文稿，如下所示:
+
+```java
+XMLSlideShow ppt = new XMLSlideShow();
+```
+
+**步骤2** :使用 **getSlideMasters()**方法获取幻灯片主题列表。 此后，使用索引选择所需的幻灯片母带，如下所示: 
+
+```java
+XSLFSlideMaster slideMaster = ppt.getSlideMasters()[0];
+```
+
+这里我们得到的默认幻灯片母版是在幻灯片主数据的第0位置。
+
+**步骤3** :使用 **XSLFSlideMaster** 类的 **getLayout()**方法获取所需的布局。 此方法接受一个参数，您必须传递 **SlideLayoutclass** 的静态变量之一，代表我们所需的布局。 这个类中有几个变量，每个变量代表一个幻灯片布局。
+
+下面的代码片段显示了如何创建标题布局:
+
+```java
+XSLFSlideLayout titleLayout = slideMaster.getLayout(SlideLayout.TITLE);
+```
+
+**步骤4** :通过将幻灯片布局对象作为参数传递来创建新幻灯片。
+
+```java
+XSLFSlide slide = ppt.createSlide(titleLayout);
+```
+
+**第5步**:使用 **XSLFSlide** 类的 **getPlaceholder()**方法选择占位符。 此方法接受整数参数。 通过传递0到它，你会得到 **XSLFTextShape** 对象，使用它可以访问幻灯片的标题文本区域。 使用setText()方法设置标题，如下所示:
+
+```java
+XSLFTextShape title1 = slide.getPlaceholder(0);
+//setting the title init
+title1.setText("Tutorials point");
+```
+
+下面给出的是在演示文稿中创建带有标题布局的幻灯片的完整程序:
+
+```java
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.xslf.usermodel.SlideLayout;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.apache.poi.xslf.usermodel.XSLFSlideLayout;
+import org.apache.poi.xslf.usermodel.XSLFSlideMaster;
+import org.apache.poi.xslf.usermodel.XSLFTextShape;
+
+public class TitleLayout {
+
+   public static void main(String args[]) throws IOException{
+   
+      //creating presentation
+      XMLSlideShow ppt = new XMLSlideShow();	    	
+      
+      //getting the slide master object
+      XSLFSlideMaster slideMaster = ppt.getSlideMasters()[0];
+      
+      //get the desired slide layout 
+      XSLFSlideLayout titleLayout = slideMaster.getLayout(SlideLayout.TITLE);
+                                                     
+      //creating a slide with title layout
+      XSLFSlide slide1 = ppt.createSlide(titleLayout);
+      
+      //selecting the place holder in it 
+      XSLFTextShape title1 = slide1.getPlaceholder(0); 
+      
+      //setting the title init 
+      title1.setText("Tutorials point");
+      
+      //create a file object
+      File file=new File("C://POIPPT//Examples//Titlelayout.pptx");
+      FileOutputStream out = new FileOutputStream(file);
+      
+      //save the changes in a PPt document
+      ppt.write(out);
+      System.out.println("slide cretated successfully");
+      out.close();  
+   }
+}
+```
+
+带有新添加的标题布局幻灯片的PPT文档如下所示: 
+
+![](1482819541953509 (1).jpg)
+
+
+
+## 标题和内容布局
+
+让我们使用标题和内容布局在PPT中创建幻灯片。 按照下面给出的步骤。
+
+**步骤1** :通过实例化 **XMLSlideShow** 类创建一个空的演示文稿，如下所示:
+
+```java
+XMLSlideShow ppt = new XMLSlideShow();
+```
+
+**步骤2** :使用 **getSlideMasters()**方法获取幻灯片主题列表。 使用索引选择所需的幻灯片母带，如下所示:
+
+```java
+XSLFSlideMaster slideMaster = ppt.getSlideMasters()[0];
+```
+
+这里我们得到的默认幻灯片母版是在幻灯片主数据的第0位置。
+
+**步骤3** :使用 **XSLFSlideMaster** 类的 **getLayout()**方法获取所需的布局。 此方法接受一个参数，您必须传递代表我们所需布局的 **SlideLayout** 类的静态变量之一。 这个类中有几个变量代表幻灯片布局。
+
+以下代码段显示如何创建标题和内容布局:
+
+```java
+XSLFSlideLayout contentlayout = slideMaster.getLayout(SlideLayout.TITLE_AND_CONTENT);
+```
+
+**步骤4** :通过将幻灯片布局对象作为参数传递来创建新幻灯片。
+
+```java
+XSLFSlide slide = ppt.createSlide(SlideLayout.TITLE_AND_CONTENT);
+```
+
+**第5步**:使用 **XSLFSlide** 类的 **getPlaceholder()**方法选择占位符。 此方法接受整数参数。 通过传递1给它，你会得到 **XSLFTextShape** 对象，使用它可以访问幻灯片的内容区域。 使用setText()方法设置标题，如下所示:
+
+```java
+XSLFTextShape title1 = slide1.getPlaceholder(1);
+//setting the title init 
+title1.setText("Introduction");
+```
+
+**步骤6** :使用 **XSLFTextShape** 类别的 **clearText()**方法清除投影片中现有的文字。
+
+```java
+body.clearText();
+```
+
+**步骤7** :使用 **addNewTextParagraph()**方法添加新段落。 现在使用 **addNewTextRun()**方法向段落中添加一个新的文本运行。 现在到文本运行，使用 **setText()**方法添加文本，如下所示:
+
+```java
+body.addNewTextParagraph().addNewTextRun().setText("this is  my first slide body");
+```
+
+下面给出的是在演示文稿中创建带有标题布局的幻灯片的完整程序:
+
+```java
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.xslf.usermodel.SlideLayout;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.apache.poi.xslf.usermodel.XSLFSlideLayout;
+import org.apache.poi.xslf.usermodel.XSLFSlideMaster;
+import org.apache.poi.xslf.usermodel.XSLFTextShape;
+
+public class TitleAndBodyLayout {
+   
+   public static void main(String args[]) throws IOException{
+   
+      //creating presentation
+      XMLSlideShow ppt = new XMLSlideShow();
+      
+      //getting the slide master object
+      XSLFSlideMaster slideMaster = ppt.getSlideMasters()[0];
+      
+      //select a layout from specified list
+      XSLFSlideLayout slidelayout = slideMaster.getLayout(SlideLayout.TITLE_AND_CONTENT);      
+      
+      //creating a slide with title and content layout
+      XSLFSlide slide = ppt.createSlide(slidelayout);
+      //selection of title place holder
+      XSLFTextShape title = slide.getPlaceholder(0);
+      
+      //setting the title in it
+      title.setText("introduction");
+      
+      //selection of body placeholder
+      XSLFTextShape body = slide.getPlaceholder(1);
+      
+      //clear the existing text in the slide
+      body.clearText();
+      
+      //adding new paragraph
+      body.addNewTextParagraph().addNewTextRun().setText("this is  my first slide body");
+      
+      //create a file object
+      File file=new File("contentlayout.pptx");
+      FileOutputStream out = new FileOutputStream(file);
+      
+      //save the changes in a file
+      ppt.write(out);
+      System.out.println("slide cretated successfully");
+      out.close();                
+   }
+}
+```
+
+![](1482819573818695.jpg)
+
+
+
+
+
+https://www.w3cschool.cn/apache_poi_ppt/apache_poi_ppt_slide_layouts.html
