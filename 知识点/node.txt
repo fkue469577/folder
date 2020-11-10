@@ -34,7 +34,7 @@ Biz（Business Logic，业务逻辑）
 Callableb必须使用ExecutorService的submit()方法来进行调用，调用后返回Future对象;
 
 this指向的是调用它的对象
-
+bind返回的是一个新的函数, 你必须调用它才会被执行
 
 
 
