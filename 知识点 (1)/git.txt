@@ -1,0 +1,18 @@
+git log		查看历史记录
+git log --pretty=oneline	精简的查看历史记录
+git reset --hard HEAD^		回退到指定版本
+gir reflog	用来记录你的每一次命令
+工作区, 版本库
+git diff HEAD -- readme.txt		比较文本修改的详细
+git checkout -- readme.txt		丢弃工作区的修改
+git remote add origin git@github.com:fkue469577/learngit.git	关联本地仓库到远程
+git checkout -b dev		创建并且切换到新的分支, 分支名称为"dev"
+	git branch dev		创建新的分支, 分支名称为"dev"
+	git checkout dev	切换到分支"dev"上
+git marge dev 	把dev分支的工作成果合并到master分支上
+git branch		查看当前分支
+git log --graph		看到分支合并图
+git config http.proxy http://127.0.0.1:2334		设置当前代理
+git config --unset http.proxy		取消当前代理
+git config --global --unset http.proxy		取消全局代理
+git config http.proxy socks5://127.0.0.1:10809		设置socks5代理
