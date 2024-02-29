@@ -1,0 +1,13 @@
+1、自定义函数
+template.defaults.imports.add = function (a,b,c) {
+	return a+b+c;
+}
+
+1、标准语法输出
+{{ 1,2,3 | add}}
+
+2、原生语法输出
+<%= $imports.add(1,2,3) %>
+
+3、原生语法自定义变量（注意：自定义变量必须调用这个方法）
+<% var data = $imports.add(1,2,3) %>
